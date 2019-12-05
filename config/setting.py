@@ -9,39 +9,38 @@ DEFAULT_DATABASE = "redis"
 
 DATABASE_COLLECTIONS = {
     "redis": {
-        'db': 'redis_',
-        'host': '127.0.0.1',
-        'port': 6379,
-        'password': '',
-        'name': ''
+        'TYPE': 'redis_',
+        'HOST': '127.0.0.1',
+        'PORT': 6379,
+        'PASSWORD': '',
+        'NAME': ''
     },
     "mongodb": {
-        'db': 'mongodb',
-        'host': '127.0.0.1',
-        'port': 27017,
-        'password': '',
-        'name': 'nosql_test'
+        'TYPE': 'mongodb',
+        'HOST': '127.0.0.1',
+        'PORT': 27017,
+        'PASSWORD': '',
+        'NAME': 'nosql_test'
     }
 }
-
-# 定义宏
-DB_TYPE = getenv('db_type', DATABASE_COLLECTIONS.get(DEFAULT_DATABASE).get('db')).lower()
-DB_HOST = getenv('db_host', DATABASE_COLLECTIONS.get(DEFAULT_DATABASE).get('host'))
-DB_PORT = getenv('db_port', DATABASE_COLLECTIONS.get(DEFAULT_DATABASE).get('port'))
-DB_NAME = getenv('db_name', DATABASE_COLLECTIONS.get(DEFAULT_DATABASE).get('name'))
-DB_PASSWORD = getenv('db_password', DATABASE_COLLECTIONS.get(DEFAULT_DATABASE).get('password'))
-
 
 # 数据库配置
 DATABASES = {
-    "default": {
-        "TYPE": DB_TYPE,
-        "HOST": DB_HOST,
-        "PORT": DB_PORT,
-        "NAME": DB_NAME,
-        "PASSWORD": DB_PASSWORD
-    }
+    "default": DATABASE_COLLECTIONS.get(DEFAULT_DATABASE)
 }
+
+# 定义宏
+DB_TYPE = getenv('db_type', DATABASES.get('default').get('TYPE')).lower()
+DB_HOST = getenv('db_host', DATABASES.get('default').get('HOST'))
+DB_PORT = getenv('db_port', DATABASES.get('default').get('PORT'))
+DB_NAME = getenv('db_name', DATABASES.get('default').get('NAME'))
+DB_PASSWORD = getenv('db_password', DATABASES.get('default').get('PASSWORD'))
+
+def change_db_configuration(type):
+    if(type in DATABASE_COLLECTIONS.keys()):
+        DATABASES['default'] = DATABASE_COLLECTIONS.get(type)
+    else:
+        raise ('Configuration of database does not exist')
 
 # 数据库名与对应client的映射
 MAPPER = {

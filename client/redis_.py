@@ -37,17 +37,20 @@ class RedisClient(object):
         self.specific_client = RedisTypeManager(type, self.client).get_client()
 
     def get(self, key, *args, **kwargs):
-        return self.specific_client.get(key)
+        return self.specific_client.get(key, *args, **kwargs)
 
     def update(self, key, value, *args, **kwargs):
-        self.specific_client.update(key, value)
+        self.specific_client.update(key, value, *args, **kwargs)
 
     def put(self, key, value, *args, **kwargs):
-        self.specific_client.put(key, value)
+        self.specific_client.put(key, value, *args, **kwargs)
 
     def delete(self, key, *args, **kwargs):
-        self.specific_client.delete(key)
+        self.specific_client.delete(key, *args, **kwargs)
 
-    def count(self):
-        return self.specific_client.count()
+    def exists(self, key):
+        self.specific_client.exists(key)
+
+    def count(self, key):
+        return self.specific_client.count(key)
 

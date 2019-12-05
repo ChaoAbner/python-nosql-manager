@@ -31,12 +31,13 @@ class ConfigGetter(object):
         return setting.DATABASES.get("default", {}).get('PASSWORD')
 
     @property
-    def client_mapper(self):
-        return setting.MAPPER.get('CLIENT').get(self.db_type)
-
-    @property
     def structure_mapper(self):
         return setting.MAPPER.get('STRUCTURE').get(self.db_type)
+
+    def client_mapper(self, db_type = None):
+        db_type = db_type if db_type else self.db_type
+        return setting.MAPPER.get('CLIENT').get(db_type)
+
 
 
 config = ConfigGetter()
