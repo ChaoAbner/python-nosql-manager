@@ -3,14 +3,12 @@ __author__ = '_chao'
 
 from config.config_getter import config
 
-
 class ClientManager(object):
-
     def __init__(self):
-        self.__init_clinet()
+        self.__init_client()
 
 
-    def __init_clinet(self):
+    def __init_client(self):
         __type =  config.db_type
         __mapper = config.client_mapper
         print(__type, __mapper)
@@ -18,20 +16,24 @@ class ClientManager(object):
                                                 host = config.db_host,
                                                 port = config.db_port,
                                                 password = config.db_passpord)
-    def get(self, key, **kwargs):
-        return self.client.get(key, **kwargs)
 
-    def put(self, key, **kwargs):
-        return self.client.put(key, **kwargs)
+    def get_client(self):
+        return self.client.get_client()
 
-    def update(self, key, value, **kwargs):
-        return self.client.update(key, value, **kwargs)
+    def get(self, key, *args, **kwargs):
+        return self.client.get(key, *args, **kwargs)
 
-    def delete(self, key, **kwargs):
-        return self.client.delete(key, **kwargs)
+    def put(self, key, value, *args, **kwargs):
+        return self.client.put(key, value, *args, **kwargs)
 
-    def exists(self, key, **kwargs):
-        return self.client.exists(key, **kwargs)
+    def update(self, key, value, *args, **kwargs):
+        return self.client.update(key, value, *args, **kwargs)
+
+    def delete(self, key, *args, **kwargs):
+        return self.client.delete(key, *args, **kwargs)
+
+    def exists(self, key, *args, **kwargs):
+        return self.client.exists(key, *args, **kwargs)
 
     def count(self):
         return self.client.count()
@@ -39,6 +41,6 @@ class ClientManager(object):
 
 if __name__ == '__main__':
     c = ClientManager()
-    table = c.client.set_table('hahaha')
-    c.put({'proxy': '123.23.2.11'})
-    print(c.count())
+    c.put('proxy', 'dfd')
+    print(c.get('proxy'))
+    c.delete('proxy')

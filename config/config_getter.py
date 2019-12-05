@@ -32,7 +32,11 @@ class ConfigGetter(object):
 
     @property
     def client_mapper(self):
-        return setting.DATABASE_CLIENT_MAPPER.get(self.db_type)
+        return setting.MAPPER.get('CLIENT').get(self.db_type)
+
+    @property
+    def structure_mapper(self):
+        return setting.MAPPER.get('STRUCTURE').get(self.db_type)
 
 
 config = ConfigGetter()
