@@ -8,9 +8,9 @@ import importlib
 class RedisTypeManager(object):
 
     def __init__(self, type, client = None, **kwargs):
-        mapper = config.structure_mapper
-        type_ = 'client.redis_structure.{}_'.format(type)
-        self.s = getattr(importlib.import_module(type_), mapper.get(type))(client = client)
+        __mapper = config.structure_mapper
+        __module_path = 'client.redis_structure.{}_'.format(type)
+        self.s = getattr(importlib.import_module(__module_path), __mapper.get(type))(client = client)
 
 
     def get_client(self):

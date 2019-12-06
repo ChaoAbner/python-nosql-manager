@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 __author__ = '_chao'
 
+import importlib
+
 from config.config_getter import config
 from config.setting import change_db_configuration
 
@@ -8,16 +10,21 @@ class ClientManager(object):
     def __init__(self, db_type = None):
         self.__init_client(db_type)
 
-
     def __init_client(self, db_type):
-        __type =  db_type if db_type else config.db_type
+        if db_type:
+            __type = db_type.lower()
+            change_db_configuration(db_type)
+        else:
+            __type = config.db_type
         __mapper = config.client_mapper(__type)
-        self.client = getattr(__import__(__type), __mapper)(name = config.db_name,
+        __module_path = 'client.{}'.format(__type)
+        self.client = getattr(importlib.import_module(__module_path), __mapper)(name = config.db_name,
                                                 host = config.db_host,
                                                 port = config.db_port,
                                                 password = config.db_passpord)
 
     def change_db(self, db_type):
+        db_type = db_type.lower()
         change_db_configuration(db_type)
         return self.__init_client(db_type)
 

@@ -4,12 +4,13 @@ __author__ = '_chao'
 from os import getenv
 
 
-# 默认数据库配置
+# 默认数据库(此处修改默认数据库)
 DEFAULT_DATABASE = "redis"
 
+# 数据库配置（使用需修改）
 DATABASE_COLLECTIONS = {
     "redis": {
-        'TYPE': 'redis_',
+        'TYPE': 'redis',
         'HOST': '127.0.0.1',
         'PORT': 6379,
         'PASSWORD': '',
@@ -45,12 +46,12 @@ def change_db_configuration(type):
 # 数据库名与对应client的映射
 MAPPER = {
     'CLIENT': {
-        'redis_': 'RedisClient',
+        'redis': 'RedisClient',
         'mongodb': 'MongoDBClient',
         'ssdb': 'SsDBClient',
     },
     'STRUCTURE':{
-        'redis_': {
+        'redis': {
             'set': 'RedisSet',
             'list': 'RedisList',
             'string': 'RedisString',
