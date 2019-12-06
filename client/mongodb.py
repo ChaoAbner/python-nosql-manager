@@ -28,6 +28,6 @@ class MongoDBClient(object):
     def delete(self, filter, *args, **kwargs):
         self.table.delete_one(filter, *args, **kwargs)
 
-    def count(self, key):
+    def count(self, key = None):
         return self.table.count()
 

@@ -28,10 +28,14 @@ class ClientManager(object):
         change_db_configuration(db_type)
         return self.__init_client(db_type)
 
+    @property
+    def db(self):
+        return self.client
+
     def get_client(self):
         return self.client.get_client()
 
-    def get(self, key, *args, **kwargs):
+    def get(self, key = None, *args, **kwargs):
         return self.client.get(key, *args, **kwargs)
 
     def put(self, key, value, *args, **kwargs):
